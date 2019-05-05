@@ -1,6 +1,6 @@
 RSpec.describe Ripgrep do
   let(:rg) do
-    Ripgrep::Core
+    Ripgrep::Client.new
   end
 
   it 'has a version number' do

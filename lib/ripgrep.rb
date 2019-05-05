@@ -1,5 +1,6 @@
 require 'ripgrep/version'
 require 'ripgrep/core'
+require 'ripgrep/client'
 
 module Ripgrep
   class Error < StandardError; end
