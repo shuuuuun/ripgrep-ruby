@@ -14,4 +14,8 @@ RSpec.describe Ripgrep do
   it 'display help' do
     expect(rg.help).to eq(`rg --help`)
   end
+
+  it 'exec' do
+    expect(rg.exec('ripgrep').split("\n").sort).to eq(`rg ripgrep .`.split("\n").sort)
+  end
 end
