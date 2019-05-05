@@ -30,4 +30,13 @@ RSpec.describe Ripgrep do
   it 'exec with bad argument' do
     expect { rg.exec('--foobar') }.to raise_error(Ripgrep::CommandExecutionError)
   end
+
+  it 'run with block' do
+    result = rg.run do
+      rg 'ripgrep', '--ignore-case'
+    end
+    expect(result.split("\n").sort).to eq(`rg ripgrep --ignore-case .`.split("\n").sort)
+    expect(rg.run { rg '--version' }).to eq(`rg --version`)
+    expect(rg.run { rg.version }).to eq(`rg --version`)
+  end
 end
