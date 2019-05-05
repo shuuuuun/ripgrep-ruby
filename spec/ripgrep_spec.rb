@@ -1,13 +1,17 @@
 RSpec.describe Ripgrep do
+  let(:rg) do
+    Ripgrep::Core
+  end
+
   it 'has a version number' do
     expect(Ripgrep::VERSION).not_to be nil
   end
 
   it 'display version.' do
-    expect(Ripgrep::Core.version).to eq(`rg --version`)
+    expect(rg.version).to eq(`rg --version`)
   end
 
   it 'display help' do
-    expect(Ripgrep::Core.help).to eq(`rg --help`)
+    expect(rg.help).to eq(`rg --help`)
   end
 end
