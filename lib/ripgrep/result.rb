@@ -6,17 +6,18 @@ module Ripgrep
       ERROR = 2
     end
 
-    attr_reader :raw_result, :raw_error, :exit_status
+    attr_reader :raw_result, :raw_error, :exit_status, :matches
 
     def initialize(result, error = '', exit_status: 0)
       @raw_result = result
       @raw_error = error
       @exit_status = exit_status
 
-      # unless [0, 1, 2].include? exit_status
-      #   # puts "exit status: #{exit_status}"
-      #   raise Ripgrep::ResultError, error 
-      # end
+      @matches = result.split("\n").map do |line|
+        file, *body = line.split(':')
+        { file: file, body: body.join(':') }
+      end
+
       case exit_status
       when Status::SUCCESS
       when Status::NO_MATCH
