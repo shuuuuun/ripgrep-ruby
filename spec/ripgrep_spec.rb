@@ -18,4 +18,8 @@ RSpec.describe Ripgrep do
   it 'exec' do
     expect(rg.exec('ripgrep').split("\n").sort).to eq(`rg ripgrep .`.split("\n").sort)
   end
+
+  it 'exec specifying dir' do
+    expect(rg.exec('ripgrep', dir: 'bin').split("\n").sort).to eq(`rg ripgrep bin`.split("\n").sort)
+  end
 end
