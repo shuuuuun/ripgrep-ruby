@@ -3,5 +3,5 @@ require 'ripgrep/core'
 
 module Ripgrep
   class Error < StandardError; end
-  # Your code goes here...
+  class CommandExecutionError < Error; end
 end
