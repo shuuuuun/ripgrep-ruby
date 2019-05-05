@@ -22,4 +22,8 @@ RSpec.describe Ripgrep do
   it 'exec specifying dir' do
     expect(rg.exec('ripgrep', dir: 'bin').split("\n").sort).to eq(`rg ripgrep bin`.split("\n").sort)
   end
+
+  it 'exec with bad argument' do
+    expect { rg.exec('--foobar') }.to raise_error(Ripgrep::CommandExecutionError)
+  end
 end
