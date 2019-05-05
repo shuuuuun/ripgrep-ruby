@@ -23,6 +23,10 @@ RSpec.describe Ripgrep do
     expect(rg.exec('ripgrep', dir: 'bin').split("\n").sort).to eq(`rg ripgrep bin`.split("\n").sort)
   end
 
+  it 'exec when nomatch' do
+    expect { rg.exec(rand.to_s) }.to raise_error(Ripgrep::NoMatchError)
+  end
+
   it 'exec with bad argument' do
     expect { rg.exec('--foobar') }.to raise_error(Ripgrep::CommandExecutionError)
   end

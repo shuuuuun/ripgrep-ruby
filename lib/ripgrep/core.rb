@@ -10,7 +10,8 @@ module Ripgrep
       opts = { dir: '.' }.merge(opts)
       puts "args: #{args}, opts: #{opts}"
       stdout, stderr, status = Open3.capture3('rg', *args, opts[:dir])
-      unless [0, 1].include? status.exitstatus
+      raise Ripgrep::NoMatchError, stderr if status.exitstatus == 1
+      unless status.exitstatus == 0
         puts "exit status: #{status.exitstatus}"
         raise Ripgrep::CommandExecutionError, stderr 
       end
