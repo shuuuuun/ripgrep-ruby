@@ -1,6 +1,6 @@
-# Ripgrep
-
 **This is under development!**
+
+# ripgrep-ruby
 
 A Ruby wrapper around [ripgrep](https://github.com/BurntSushi/ripgrep)!
 
