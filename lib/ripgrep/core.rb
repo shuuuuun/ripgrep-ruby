@@ -3,7 +3,7 @@ require 'open3'
 module Ripgrep
   class Core
     def self.exec(*args, opts)
-      unless opts.class == Hash
+      unless opts.is_a? Hash
         args << opts
         opts = {}
       end
