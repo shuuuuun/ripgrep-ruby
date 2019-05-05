@@ -8,22 +8,23 @@ module Ripgrep
         opts = {}
       end
       opts = { dir: '.' }.merge(opts)
-      puts "args: #{args}, opts: #{opts}"
+      # puts "args: #{args}, opts: #{opts}"
       stdout, stderr, status = Open3.capture3('rg', *args, opts[:dir])
-      raise Ripgrep::NoMatchError, stderr if status.exitstatus == 1
-      unless status.exitstatus == 0
-        puts "exit status: #{status.exitstatus}"
+      # raise Ripgrep::NoMatchError, stderr if status.exitstatus == 1
+      # unless status.exitstatus == 0
+      unless status.exited?
+        # puts "exit status: #{status.exitstatus}"
         raise Ripgrep::CommandExecutionError, stderr 
       end
-      stdout
+      Result.new stdout, stderr, exit_status: status.exitstatus
     end
 
     def self.version
-      self.exec('--version')
+      self.exec('--version').to_s
     end
 
     def self.help
-      self.exec('--help')
+      self.exec('--help').to_s
     end
   end
 end
