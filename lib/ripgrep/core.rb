@@ -7,9 +7,9 @@ module Ripgrep
         args << opts
         opts = {}
       end
-      opts = { dir: '.' }.merge(opts)
+      opts = { path: '.' }.merge(opts)
       # puts "args: #{args}, opts: #{opts}"
-      stdout, stderr, status = Open3.capture3('rg', *args, opts[:dir])
+      stdout, stderr, status = Open3.capture3('rg', *args, opts[:path])
       unless status.exited?
         # puts "exit status: #{status.exitstatus}"
         raise Ripgrep::CommandExecutionError, stderr 

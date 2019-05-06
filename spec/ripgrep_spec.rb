@@ -19,8 +19,8 @@ RSpec.describe Ripgrep do
     expect(rg.exec('ripgrep').lines.sort).to eq(`rg ripgrep .`.split("\n").sort)
   end
 
-  it 'exec specifying dir' do
-    expect(rg.exec('ripgrep', dir: 'bin').lines.sort).to eq(`rg ripgrep bin`.split("\n").sort)
+  it 'exec specifying path' do
+    expect(rg.exec('ripgrep', path: 'bin').lines.sort).to eq(`rg ripgrep bin`.split("\n").sort)
   end
 
   it 'exec when nomatch' do
