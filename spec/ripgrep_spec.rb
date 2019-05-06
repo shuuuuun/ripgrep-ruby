@@ -32,6 +32,11 @@ RSpec.describe Ripgrep do
     expect { rg.exec('--foobar') }.to raise_error(Ripgrep::ResultError)
   end
 
+  it 'exec with cli options' do
+    expect(rg.exec('ripgrep', options: { ignore_case: true }).lines.sort).to eq(`rg --ignore-case ripgrep .`.split("\n").sort)
+    expect(rg.exec('The MIT License (MIT)', options: { fixed_strings: true }).lines.sort).to eq(`rg --fixed-strings 'The MIT License (MIT)' .`.split("\n").sort)
+  end
+
   it 'run with block' do
     result = rg.run do
       rg 'ripgrep', '--ignore-case'

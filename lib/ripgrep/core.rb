@@ -7,8 +7,15 @@ module Ripgrep
         args << opts
         opts = {}
       end
-      # TODO: support cli options
       opts = { path: '.' }.merge(opts)
+      cli_options = opts[:options]&.map do |key, val|
+        next unless val
+        val = '' if val.is_a? TrueClass
+        val = val.join if val.is_a? Array
+        key = key.to_s.tr('_', '-')
+        "--#{key} #{val}".strip
+      end
+      args = cli_options + args if cli_options
       # TODO: make debug logger
       # puts "args: #{args}, opts: #{opts}"
       stdout, stderr, status = Open3.capture3('rg', *args, opts[:path])
