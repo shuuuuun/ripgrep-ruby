@@ -16,11 +16,11 @@ RSpec.describe Ripgrep do
   end
 
   it 'exec' do
-    expect(rg.exec('ripgrep').to_s.split("\n").sort).to eq(`rg ripgrep .`.split("\n").sort)
+    expect(rg.exec('ripgrep').lines.sort).to eq(`rg ripgrep .`.split("\n").sort)
   end
 
   it 'exec specifying dir' do
-    expect(rg.exec('ripgrep', dir: 'bin').to_s.split("\n").sort).to eq(`rg ripgrep bin`.split("\n").sort)
+    expect(rg.exec('ripgrep', dir: 'bin').lines.sort).to eq(`rg ripgrep bin`.split("\n").sort)
   end
 
   it 'exec when nomatch' do
@@ -36,7 +36,7 @@ RSpec.describe Ripgrep do
     result = rg.run do
       rg 'ripgrep', '--ignore-case'
     end
-    expect(result.to_s.split("\n").sort).to eq(`rg ripgrep --ignore-case .`.split("\n").sort)
+    expect(result.lines.sort).to eq(`rg ripgrep --ignore-case .`.split("\n").sort)
     expect(rg.run { rg '--version' }.to_s).to eq(`rg --version`)
     expect(rg.run { rg.version }.to_s).to eq(`rg --version`)
   end

@@ -28,6 +28,10 @@ module Ripgrep
       end
     end
 
+    def lines
+      @raw_result.to_s.split("\n")
+    end
+
     def to_s
       @raw_result.to_s
     end
