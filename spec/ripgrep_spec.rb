@@ -39,10 +39,10 @@ RSpec.describe Ripgrep do
 
   it 'run with block' do
     result = rg.run do
-      rg 'ripgrep', '--ignore-case'
+      rg '--ignore-case', 'ripgrep'
     end
-    expect(result.lines.sort).to eq(`rg ripgrep --ignore-case .`.split("\n").sort)
+    expect(result.lines.sort).to eq(`rg --ignore-case ripgrep .`.split("\n").sort)
     expect(rg.run { rg '--version' }.to_s).to eq(`rg --version`)
-    expect(rg.run { rg.version }.to_s).to eq(`rg --version`)
+    expect(rg.run { rg.version }).to eq(`rg --version`)
   end
 end
