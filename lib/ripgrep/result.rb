@@ -13,7 +13,9 @@ module Ripgrep
       @raw_error = error
       @exit_status = exit_status
 
+      # TODO: skip when not matching result. like a help or version.
       @matches = result.split("\n").map do |line|
+        # TODO: implement Match class. make more rich and useful interface.
         file, *body = line.split(':')
         { file: file, body: body.join(':') }
       end

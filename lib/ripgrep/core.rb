@@ -7,7 +7,9 @@ module Ripgrep
         args << opts
         opts = {}
       end
+      # TODO: support cli options
       opts = { path: '.' }.merge(opts)
+      # TODO: make debug logger
       # puts "args: #{args}, opts: #{opts}"
       stdout, stderr, status = Open3.capture3('rg', *args, opts[:path])
       unless status.exited?
