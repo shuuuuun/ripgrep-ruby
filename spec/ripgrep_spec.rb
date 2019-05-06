@@ -16,27 +16,28 @@ RSpec.describe Ripgrep do
   end
 
   it 'exec' do
-    expect(rg.exec('ripgrep').split("\n").sort).to eq(`rg ripgrep .`.split("\n").sort)
+    expect(rg.exec('ripgrep').to_s.split("\n").sort).to eq(`rg ripgrep .`.split("\n").sort)
   end
 
   it 'exec specifying dir' do
-    expect(rg.exec('ripgrep', dir: 'bin').split("\n").sort).to eq(`rg ripgrep bin`.split("\n").sort)
+    expect(rg.exec('ripgrep', dir: 'bin').to_s.split("\n").sort).to eq(`rg ripgrep bin`.split("\n").sort)
   end
 
   it 'exec when nomatch' do
-    expect { rg.exec(rand.to_s) }.to raise_error(Ripgrep::NoMatchError)
+    text = rand.to_s
+    expect(rg.exec(text).to_s).to eq(`rg #{text} .`)
   end
 
   it 'exec with bad argument' do
-    expect { rg.exec('--foobar') }.to raise_error(Ripgrep::CommandExecutionError)
+    expect { rg.exec('--foobar') }.to raise_error(Ripgrep::ResultError)
   end
 
   it 'run with block' do
     result = rg.run do
       rg 'ripgrep', '--ignore-case'
     end
-    expect(result.split("\n").sort).to eq(`rg ripgrep --ignore-case .`.split("\n").sort)
-    expect(rg.run { rg '--version' }).to eq(`rg --version`)
-    expect(rg.run { rg.version }).to eq(`rg --version`)
+    expect(result.to_s.split("\n").sort).to eq(`rg ripgrep --ignore-case .`.split("\n").sort)
+    expect(rg.run { rg '--version' }.to_s).to eq(`rg --version`)
+    expect(rg.run { rg.version }.to_s).to eq(`rg --version`)
   end
 end
