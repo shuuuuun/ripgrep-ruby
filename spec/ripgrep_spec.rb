@@ -45,4 +45,22 @@ RSpec.describe Ripgrep do
     expect(rg.run { rg '--version' }.to_s).to eq(`rg --version`)
     expect(rg.run { rg.version }).to eq(`rg --version`)
   end
+
+  it 'Ripgrep.run' do
+    rspec = self
+    Ripgrep.run do
+      # include RSpec::Matchers
+  
+      result = rg '--ignore-case', 'ripgrep'
+      rspec.expect(result.lines.sort).to rspec.eq(`rg --ignore-case ripgrep .`.split("\n").sort)
+  
+      result = rg '--version'
+      rspec.expect(result.to_s).to rspec.eq(`rg --version`)
+      rspec.expect(rg.version).to rspec.eq(`rg --version`)
+  
+      result = rg '--help'
+      rspec.expect(result.to_s).to rspec.eq(`rg --help`)
+      rspec.expect(rg.help).to rspec.eq(`rg --help`)
+    end
+  end
 end

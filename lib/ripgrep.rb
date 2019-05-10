@@ -8,4 +8,10 @@ module Ripgrep
   class CommandExecutionError < Error; end
   class NoMatchError < Error; end
   class ResultError < Error; end
+
+  class << self
+    def run(&block)
+      Client.new.run(&block)
+    end
+  end
 end
