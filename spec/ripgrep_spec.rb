@@ -34,7 +34,9 @@ RSpec.describe Ripgrep do
 
   it 'exec with cli options' do
     expect(rg.exec('ripgrep', options: { ignore_case: true }).lines.sort).to eq(`rg --ignore-case ripgrep .`.split("\n").sort)
+    expect(rg.exec('ripgrep', options: { ignore_case: false }).lines.sort).not_to eq(`rg --ignore-case ripgrep .`.split("\n").sort)
     expect(rg.exec('The MIT License (MIT)', options: { fixed_strings: true }).lines.sort).to eq(`rg --fixed-strings 'The MIT License (MIT)' .`.split("\n").sort)
+    expect(rg.exec('The MIT License (MIT)', options: { fixed_strings: false }).lines.sort).not_to eq(`rg --fixed-strings 'The MIT License (MIT)' .`.split("\n").sort)
   end
 
   it 'run with block' do
