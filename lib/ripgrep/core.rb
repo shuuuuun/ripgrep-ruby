@@ -14,10 +14,11 @@ module Ripgrep
         val = val.join if val.is_a? Array
         key = key.to_s.tr('_', '-')
         "--#{key} #{val}".strip
-      end
+      end&.compact
       args = cli_options + args if cli_options
       # TODO: make debug logger
       # puts "args: #{args}, opts: #{opts}"
+      # TODO: verbose option
       stdout, stderr, status = Open3.capture3('rg', *args, opts[:path])
       unless status.exited?
         # puts "exit status: #{status.exitstatus}"
