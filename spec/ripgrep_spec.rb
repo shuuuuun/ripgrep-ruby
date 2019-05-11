@@ -41,6 +41,23 @@ RSpec.describe Ripgrep do
     expect(rg.exec('The MIT License (MIT)', options: { fixed_strings: false }).lines.sort).not_to eq(expected)
   end
 
+  it 'exec with verbose option' do
+    client = Ripgrep::Client.new
+    expect { client.exec('ripgrep') }.not_to output.to_stdout
+    expect { client.exec('ripgrep', verbose: true) }.to output.to_stdout
+    expect { client.exec('ripgrep', verbose: false) }.not_to output.to_stdout
+
+    client = Ripgrep::Client.new(verbose: true)
+    expect { client.exec('ripgrep') }.to output.to_stdout
+    expect { client.exec('ripgrep', verbose: true) }.to output.to_stdout
+    expect { client.exec('ripgrep', verbose: false) }.not_to output.to_stdout
+
+    client = Ripgrep::Client.new(verbose: false)
+    expect { client.exec('ripgrep') }.not_to output.to_stdout
+    expect { client.exec('ripgrep', verbose: true) }.to output.to_stdout
+    expect { client.exec('ripgrep', verbose: false) }.not_to output.to_stdout
+  end
+
   it 'run with block' do
     result = rg.run do
       rg '--ignore-case', 'ripgrep'
