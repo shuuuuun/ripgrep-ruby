@@ -7,6 +7,7 @@ module Ripgrep
         args << opts
         opts = {}
       end
+      verbose = !!opts[:verbose]
       opts = { path: '.' }.merge(opts)
       cli_options = opts[:options]&.map do |key, val|
         next unless val
@@ -16,12 +17,10 @@ module Ripgrep
         "--#{key} #{val}".strip
       end&.compact
       args = cli_options + args if cli_options
-      # TODO: make debug logger
-      # puts "args: #{args}, opts: #{opts}"
-      # TODO: verbose option
+      puts "args: #{args}, opts: #{opts}" if verbose
       stdout, stderr, status = Open3.capture3('rg', *args, opts[:path])
       unless status.exited?
-        # puts "exit status: #{status.exitstatus}"
+        puts "exit status: #{status.exitstatus}" if verbose
         raise Ripgrep::CommandExecutionError, stderr 
       end
       Result.new stdout, stderr, exit_status: status.exitstatus
