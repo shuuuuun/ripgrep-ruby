@@ -4,8 +4,8 @@ module Ripgrep
   class Core
     def self.exec(*args, verbose: false)
       stdout, stderr, status = Open3.capture3('rg', *args)
+      puts "exit status: #{status.exitstatus}" if verbose
       unless status.exited?
-        puts "exit status: #{status.exitstatus}" if verbose
         raise Ripgrep::CommandExecutionError, stderr 
       end
       Result.new stdout, stderr, exit_status: status.exitstatus
