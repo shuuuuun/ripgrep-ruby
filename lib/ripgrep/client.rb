@@ -27,7 +27,7 @@ module Ripgrep
       cli_arguments = cli_options + args
       cli_arguments << (opts[:path] || '.')
       puts "cli_arguments: #{cli_arguments}" if verbose
-      Core.exec(*cli_arguments, verbose: @verbose)
+      Core.exec(*cli_arguments, verbose: verbose)
     end
 
     def run(&block)
