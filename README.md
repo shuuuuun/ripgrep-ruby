@@ -20,7 +20,58 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+require 'ripgrep'
+
+rg = Ripgrep::Client.new
+
+### return the version like `rg --version`
+puts rg.version
+# =>
+#    ripgrep 11.0.1
+#    -SIMD -AVX (compiled)
+#    +SIMD +AVX (runtime)
+
+### Search like `rg require lib`
+result = rg.exec 'require', path: 'lib'
+puts result
+# =>
+#    lib/ripgrep.rb:require 'ripgrep/version'
+#    lib/ripgrep.rb:require 'ripgrep/core'
+#    lib/ripgrep.rb:require 'ripgrep/client'
+#    lib/ripgrep.rb:require 'ripgrep/result'
+#    lib/ripgrep/client.rb:require 'forwardable'
+#    lib/ripgrep/core.rb:require 'open3'
+
+puts result.matches
+# =>
+#    {:file=>"lib/ripgrep.rb", :body=>"require 'ripgrep/version'"}
+#    {:file=>"lib/ripgrep.rb", :body=>"require 'ripgrep/core'"}
+#    {:file=>"lib/ripgrep.rb", :body=>"require 'ripgrep/client'"}
+#    {:file=>"lib/ripgrep.rb", :body=>"require 'ripgrep/result'"}
+#    {:file=>"lib/ripgrep/client.rb", :body=>"require 'forwardable'"}
+#    {:file=>"lib/ripgrep/core.rb", :body=>"require 'open3'"}
+
+### Search like `rg --ignore-case ruby ripgrep.gemspec`
+result = rg.exec 'ruby', path: 'ripgrep.gemspec', options: { ignore_case: true }
+puts result
+# =>
+#     spec.summary       = "A Ruby wrapper around ripgrep!"
+#     spec.description   = "A Ruby wrapper around ripgrep!"
+#     spec.homepage      = "https://github.com/shuuuuun/ripgrep-ruby"
+#     # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
+
+### You can use `rg` method in run block.
+rg.run do
+  result = rg '--ignore-case', 'ruby'
+  puts result
+end
+
+Ripgrep.run do
+  result = rg '--ignore-case', 'ruby'
+  puts result
+end
+```
 
 ## Links
 
