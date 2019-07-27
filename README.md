@@ -45,12 +45,13 @@ puts result
 
 puts result.matches
 # =>
-#    {:file=>"lib/ripgrep.rb", :body=>"require 'ripgrep/version'"}
-#    {:file=>"lib/ripgrep.rb", :body=>"require 'ripgrep/core'"}
-#    {:file=>"lib/ripgrep.rb", :body=>"require 'ripgrep/client'"}
-#    {:file=>"lib/ripgrep.rb", :body=>"require 'ripgrep/result'"}
-#    {:file=>"lib/ripgrep/client.rb", :body=>"require 'forwardable'"}
-#    {:file=>"lib/ripgrep/core.rb", :body=>"require 'open3'"}
+#    {"file":"lib/ripgrep.rb","body":"require 'ripgrep/version'"}
+#    {"file":"lib/ripgrep.rb","body":"require 'ripgrep/core'"}
+#    {"file":"lib/ripgrep.rb","body":"require 'ripgrep/client'"}
+#    {"file":"lib/ripgrep.rb","body":"require 'ripgrep/result'"}
+#    {"file":"lib/ripgrep.rb","body":"require 'ripgrep/match'"}
+#    {"file":"lib/ripgrep/core.rb","body":"require 'open3'"}
+#    {"file":"lib/ripgrep/client.rb","body":"require 'forwardable'"}
 
 ### Search like `rg --ignore-case ruby ripgrep.gemspec`
 result = rg.exec 'ruby', path: 'ripgrep.gemspec', options: { ignore_case: true }
