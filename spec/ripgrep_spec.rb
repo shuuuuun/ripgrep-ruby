@@ -58,6 +58,13 @@ RSpec.describe Ripgrep do
     expect { client.exec('ripgrep', verbose: false) }.not_to output.to_stdout
   end
 
+  it 'result.matches interface' do
+    result = rg.exec 'require', path: 'lib'
+    expected = `rg require lib`.split("\n").sort
+    expect(result.matches.size).to eq(expected.size)
+    expect(result.matches.map(&:to_s).sort).to eq(expected)
+  end
+
   it 'run with block' do
     result = rg.run do
       rg '--ignore-case', 'ripgrep'
