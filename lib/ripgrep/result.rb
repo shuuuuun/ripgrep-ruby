@@ -6,6 +6,8 @@ module Ripgrep
       ERROR = 2
     end
 
+    Match = Struct.new :file, :body
+
     attr_reader :raw_result, :raw_error, :exit_status, :matches
 
     def initialize(result, error = '', exit_status: 0)
@@ -17,7 +19,9 @@ module Ripgrep
       @matches = result.split("\n").map do |line|
         # TODO: implement Match class. make more rich and useful interface.
         file, *body = line.split(':')
-        { file: file, body: body.join(':') }
+        # { file: file, body: body.join(':') }
+        # Match.new file: file, body: body.join(':')
+        Match.new file, body.join(':')
       end
 
       case exit_status
