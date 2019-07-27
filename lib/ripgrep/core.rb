@@ -18,5 +18,9 @@ module Ripgrep
     def self.help
       self.exec('--help').to_s
     end
+
+    def self.files
+      self.exec('--files').to_s
+    end
   end
 end

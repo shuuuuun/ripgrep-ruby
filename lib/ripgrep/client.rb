@@ -4,7 +4,7 @@ module Ripgrep
   class Client
     extend Forwardable
 
-    def_delegators Core, :version, :help
+    def_delegators Core, :version, :help, :files
 
     def initialize(verbose: false)
       @verbose = verbose
