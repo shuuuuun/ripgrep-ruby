@@ -17,7 +17,7 @@ module Ripgrep
       # $ rg --files で対象ファイルが取れるので、これと比較してmatch結果かどうか見るのがいいかも
       @matches = result.split("\n").map do |line|
         file, *body = line.split(':')
-        Match.new file: file, body: body.join(':')
+        Match.new file: file, body: body.join(':'), raw_line: line
       end
 
       case exit_status
