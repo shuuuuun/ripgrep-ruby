@@ -33,6 +33,7 @@ module Ripgrep
     def lines
       @raw_result.to_s.split("\n")
     end
+    alias_method :to_a, :lines
 
     def to_s
       @raw_result.to_s

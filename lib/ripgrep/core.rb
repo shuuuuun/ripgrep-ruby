@@ -20,7 +20,7 @@ module Ripgrep
     end
 
     def self.files
-      self.exec('--files').to_s
+      self.exec('--files').to_a
     end
   end
 end
