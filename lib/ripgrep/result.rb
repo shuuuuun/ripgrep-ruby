@@ -6,8 +6,6 @@ module Ripgrep
       ERROR = 2
     end
 
-    Match = Struct.new :file, :body
-
     attr_reader :raw_result, :raw_error, :exit_status, :matches
 
     def initialize(result, error = '', exit_status: 0)
@@ -16,12 +14,10 @@ module Ripgrep
       @exit_status = exit_status
 
       # TODO: skip when not matching result. like a help or version.
+      # $ rg --files で対象ファイルが取れるので、これと比較してmatch結果かどうか見るのがいいかも
       @matches = result.split("\n").map do |line|
-        # TODO: implement Match class. make more rich and useful interface.
         file, *body = line.split(':')
-        # { file: file, body: body.join(':') }
-        # Match.new file: file, body: body.join(':')
-        Match.new file, body.join(':')
+        Match.new file: file, body: body.join(':')
       end
 
       case exit_status

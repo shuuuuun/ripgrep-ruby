@@ -2,6 +2,7 @@ require 'ripgrep/version'
 require 'ripgrep/core'
 require 'ripgrep/client'
 require 'ripgrep/result'
+require 'ripgrep/match'
 
 module Ripgrep
   class Error < StandardError; end
