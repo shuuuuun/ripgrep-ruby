@@ -40,18 +40,19 @@ puts result
 #    lib/ripgrep.rb:require 'ripgrep/core'
 #    lib/ripgrep.rb:require 'ripgrep/client'
 #    lib/ripgrep.rb:require 'ripgrep/result'
-#    lib/ripgrep/client.rb:require 'forwardable'
+#    lib/ripgrep.rb:require 'ripgrep/match'
 #    lib/ripgrep/core.rb:require 'open3'
+#    lib/ripgrep/client.rb:require 'forwardable'
 
-puts result.matches
+puts result.matches.map(&:to_json)
 # =>
-#    {"file":"lib/ripgrep.rb","body":"require 'ripgrep/version'"}
-#    {"file":"lib/ripgrep.rb","body":"require 'ripgrep/core'"}
-#    {"file":"lib/ripgrep.rb","body":"require 'ripgrep/client'"}
-#    {"file":"lib/ripgrep.rb","body":"require 'ripgrep/result'"}
-#    {"file":"lib/ripgrep.rb","body":"require 'ripgrep/match'"}
-#    {"file":"lib/ripgrep/core.rb","body":"require 'open3'"}
-#    {"file":"lib/ripgrep/client.rb","body":"require 'forwardable'"}
+#    {"file":"lib/ripgrep.rb","body":"require 'ripgrep/version'","raw_line":"lib/ripgrep.rb:require 'ripgrep/version'"}
+#    {"file":"lib/ripgrep.rb","body":"require 'ripgrep/core'","raw_line":"lib/ripgrep.rb:require 'ripgrep/core'"}
+#    {"file":"lib/ripgrep.rb","body":"require 'ripgrep/client'","raw_line":"lib/ripgrep.rb:require 'ripgrep/client'"}
+#    {"file":"lib/ripgrep.rb","body":"require 'ripgrep/result'","raw_line":"lib/ripgrep.rb:require 'ripgrep/result'"}
+#    {"file":"lib/ripgrep.rb","body":"require 'ripgrep/match'","raw_line":"lib/ripgrep.rb:require 'ripgrep/match'"}
+#    {"file":"lib/ripgrep/core.rb","body":"require 'open3'","raw_line":"lib/ripgrep/core.rb:require 'open3'"}
+#    {"file":"lib/ripgrep/client.rb","body":"require 'forwardable'","raw_line":"lib/ripgrep/client.rb:require 'forwardable'"}
 
 ### Search like `rg --ignore-case ruby ripgrep.gemspec`
 result = rg.exec 'ruby', path: 'ripgrep.gemspec', options: { ignore_case: true }
