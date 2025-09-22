@@ -2,6 +2,14 @@
 
 A Ruby wrapper around [ripgrep](https://github.com/BurntSushi/ripgrep)!
 
+## Requirements
+
+- ripgrep (rg) must be installed separately on your system. See the official repository: https://github.com/BurntSushi/ripgrep
+
+Verified on:
+- ripgrep 14.1.0
+- Ruby 3.2, 3.3, 3.4
+
 ## Installation
 
 Add this line to your application's Gemfile:
