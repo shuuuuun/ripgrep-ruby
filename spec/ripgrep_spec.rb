@@ -46,6 +46,24 @@ RSpec.describe Ripgrep do
     expect(rg.exec('ripgrep', options: { no_config: true, color: 'always' }).lines.sort).to eq(expected)
   end
 
+  it 'exec with cli options with empty string value' do
+    # Empty string should be skipped (not included in CLI options)
+    expected = `rg --no-config ripgrep .`.split("\n").sort
+    expect(rg.exec('ripgrep', options: { no_config: true, color: '' }).lines.sort).to eq(expected)
+  end
+
+  it 'exec with cli options with nil and false values' do
+    # nil and false values should be skipped
+    expected = `rg --no-config ripgrep .`.split("\n").sort
+    expect(rg.exec('ripgrep', options: { no_config: true, color: nil, ignore_case: false }).lines.sort).to eq(expected)
+  end
+
+  it 'exec with cli options with array values' do
+    # Array values should be joined
+    expected = `rg --no-config --glob '*.rb' --glob '*.gemspec' ripgrep .`.split("\n").sort
+    expect(rg.exec('ripgrep', options: { no_config: true, glob: ['*.rb', '*.gemspec'] }).lines.sort).to eq(expected)
+  end
+
   it 'exec with verbose option' do
     client = Ripgrep::Client.new
     expect { client.exec('ripgrep') }.not_to output.to_stdout
