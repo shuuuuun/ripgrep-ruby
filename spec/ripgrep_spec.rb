@@ -46,10 +46,15 @@ RSpec.describe Ripgrep do
     expect(rg.exec('ripgrep', options: { no_config: true, color: 'always' }).lines.sort).to eq(expected)
   end
 
-  it 'exec with cli options with empty string value' do
-    # Empty string should be skipped (not included in CLI options)
-    expected = `rg --no-config ripgrep .`.split("\n").sort
-    expect(rg.exec('ripgrep', options: { no_config: true, color: '' }).lines.sort).to eq(expected)
+  it 'exec with cli options where empty value should raise error' do
+    # --color requires a non-empty value; empty should cause an error
+    expect { rg.exec('ripgrep', options: { no_config: true, color: '' }) }.to raise_error(Ripgrep::ResultError)
+  end
+
+  it 'exec with cli options where empty value is allowed' do
+    # Some options allow empty string; should pass through as --key=
+    expected = `rg --no-config --replace= ripgrep .`.split("\n").sort
+    expect(rg.exec('ripgrep', options: { no_config: true, replace: '' }).lines.sort).to eq(expected)
   end
 
   it 'exec with cli options with nil and false values' do

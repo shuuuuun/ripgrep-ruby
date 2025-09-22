@@ -27,8 +27,8 @@ module Ripgrep
           # For true, create --key option without value
           ["--#{key}"]
         elsif val.is_a? String
-          # For strings, skip empty strings, otherwise use --key=val format
-          val.empty? ? [] : ["--#{key}=#{val}"]
+          # For strings, always pass through (empty string becomes --key=)
+          ["--#{key}=#{val}"]
         else
           # For other values, convert to string
           ["--#{key}=#{val}"]
