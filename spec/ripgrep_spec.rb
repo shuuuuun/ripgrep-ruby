@@ -41,6 +41,11 @@ RSpec.describe Ripgrep do
     expect(rg.exec('The MIT License (MIT)', options: { no_config: true, fixed_strings: false }).lines.sort).not_to eq(expected)
   end
 
+  it 'exec with cli options(--key=val)' do
+    expected = `rg --no-config --color always ripgrep .`.split("\n").sort
+    expect(rg.exec('ripgrep', options: { no_config: true, color: 'always' }).lines.sort).to eq(expected)
+  end
+
   it 'exec with verbose option' do
     client = Ripgrep::Client.new
     expect { client.exec('ripgrep') }.not_to output.to_stdout
