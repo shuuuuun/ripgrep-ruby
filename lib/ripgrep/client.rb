@@ -21,7 +21,7 @@ module Ripgrep
         val = '' if val.is_a? TrueClass
         val = val.join if val.is_a? Array
         key = key.to_s.tr('_', '-')
-        "--#{key} #{val}".strip
+        val.empty? ? "--#{key}" : "--#{key}=#{val}"
       end&.compact || []
       puts "cli_options: #{cli_options}" if verbose
       cli_arguments = cli_options + args
