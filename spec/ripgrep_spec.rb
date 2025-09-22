@@ -33,12 +33,12 @@ RSpec.describe Ripgrep do
   end
 
   it 'exec with cli options' do
-    expected = `rg --ignore-case ripgrep .`.split("\n").sort
-    expect(rg.exec('ripgrep', options: { ignore_case: true }).lines.sort).to eq(expected)
-    expect(rg.exec('ripgrep', options: { ignore_case: false }).lines.sort).not_to eq(expected)
-    expected = `rg --fixed-strings 'The MIT License (MIT)' .`.split("\n").sort
-    expect(rg.exec('The MIT License (MIT)', options: { fixed_strings: true }).lines.sort).to eq(expected)
-    expect(rg.exec('The MIT License (MIT)', options: { fixed_strings: false }).lines.sort).not_to eq(expected)
+    expected = `rg --no-config --ignore-case ripgrep .`.split("\n").sort
+    expect(rg.exec('ripgrep', options: { no_config: true, ignore_case: true }).lines.sort).to eq(expected)
+    expect(rg.exec('ripgrep', options: { no_config: true, ignore_case: false }).lines.sort).not_to eq(expected)
+    expected = `rg --no-config --fixed-strings 'The MIT License (MIT)' .`.split("\n").sort
+    expect(rg.exec('The MIT License (MIT)', options: { no_config: true, fixed_strings: true }).lines.sort).to eq(expected)
+    expect(rg.exec('The MIT License (MIT)', options: { no_config: true, fixed_strings: false }).lines.sort).not_to eq(expected)
   end
 
   it 'exec with verbose option' do
@@ -78,14 +78,14 @@ RSpec.describe Ripgrep do
     rspec = self
     Ripgrep.run do
       # include RSpec::Matchers
-  
+
       result = rg '--ignore-case', 'ripgrep'
       rspec.expect(result.lines.sort).to rspec.eq(`rg --ignore-case ripgrep .`.split("\n").sort)
-  
+
       result = rg '--version'
       rspec.expect(result.to_s).to rspec.eq(`rg --version`)
       rspec.expect(rg.version).to rspec.eq(`rg --version`)
-  
+
       result = rg '--help'
       rspec.expect(result.to_s).to rspec.eq(`rg --help`)
       rspec.expect(rg.help).to rspec.eq(`rg --help`)
