@@ -16,12 +16,23 @@ module Ripgrep
         opts = {}
       end
       verbose = opts[:verbose].nil? ? @verbose : !!opts[:verbose]
-      cli_options = opts[:options]&.map do |key, val|
-        next unless val
-        val = '' if val.is_a? TrueClass
-        val = val.join if val.is_a? Array
+      cli_options = opts[:options]&.flat_map do |key, val|
+        next [] unless val
         key = key.to_s.tr('_', '-')
-        val.empty? ? "--#{key}" : "--#{key}=#{val}"
+
+        if val.is_a? Array
+          # For arrays, create multiple --key=val options
+          val.map { |v| "--#{key}=#{v}" }
+        elsif val.is_a? TrueClass
+          # For true, create --key option without value
+          ["--#{key}"]
+        elsif val.is_a? String
+          # For strings, skip empty strings, otherwise use --key=val format
+          val.empty? ? [] : ["--#{key}=#{val}"]
+        else
+          # For other values, convert to string
+          ["--#{key}=#{val}"]
+        end
       end&.compact || []
       puts "cli_options: #{cli_options}" if verbose
       cli_arguments = cli_options + args
