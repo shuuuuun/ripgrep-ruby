@@ -33,10 +33,3 @@ jobs:
 
     - name: Run RSpec tests
       run: bundle exec rspec
-
-    - name: Run tests with coverage
-      run: |
-        if [ -f Gemfile ]; then
-          bundle exec rspec --format documentation
-        fi
-      continue-on-error: true
